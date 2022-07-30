@@ -18,19 +18,35 @@ export default class News extends Component {
     ];
     constructor() {
         super();
-        console.log("This is a constructor")
         this.state = {
             articles: this.article,
-            loading: false
+            loading: false,
+            page: 1,
+            totalResult: 1
         }
     }
     async componentDidMount() {
-        console.log("cdm")
-        let data = await fetch("https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3 ");
+        let data = await fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3&page=${this.state.page}&pagesize=18`);
         let json_data = await data.json();
-        console.log(json_data)
-        console.log(data);
         this.setState({
+            articles: json_data.articles,
+            totalResult: json_data.totalResults
+        })
+    }
+    handleNext = async () => {
+        let data = await fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3&page=${this.state.page + 1}&pagesize=18`);
+        let json_data = await data.json();
+        this.setState({
+            page: this.state.page+1,
+            articles: json_data.articles
+        })
+
+    }
+    handlePrev = async () => {
+        let data = await fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3&page=${this.state.page - 1}&pagesize=18`);
+        let json_data = await data.json();
+        this.setState({
+            page: this.state.page-1,
             articles: json_data.articles
         })
     }
@@ -41,17 +57,16 @@ export default class News extends Component {
                     <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-3">
                         {
                             this.state.articles.map((element) => {
-                                    // console.log("function called")
+
                                     return <NewsItem key={element.url} title={element.title} description={element.description} image={element.urlToImage} newsUrl={element.url} />
                                 }
                             )
                         }
                     </div>
-
-                    <div className="container d-flex justify-content-between my-3">
-                        <button type="button" className="btn btn-dark">&#8592; Prev</button>
-                        <button type="button" className="btn btn-dark">Next &#8594;</button>
-                    </div>
+                    <div className="container d-flex justify-content-between my-3 ">
+                    <button type="button" disabled = {this.state.page ===1} className="btn btn-dark" onClick={this.handlePrev}>&#8592; Prev</button>
+                    <button type="button" className="btn btn-dark" disabled = {this.state.page > (this.state.totalResult/18)} onClick={this.handleNext}>Next &#8594;</button>
+                </div>
                 </div>
             </>
         )
