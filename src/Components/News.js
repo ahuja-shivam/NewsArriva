@@ -24,16 +24,16 @@ export default class News extends Component {
             loading: false
         }
     }
-    // async componentDidMount() {
-    //     console.log("cdm")
-    //     let data = await fetch("https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3 ");
-    //     let json_data = await data.json();
-    //     console.log(json_data)
-    //     console.log(data);
-    //     this.setState({
-    //         articles: json_data.articles
-    //     })
-    // }
+    async componentDidMount() {
+        console.log("cdm")
+        let data = await fetch("https://newsapi.org/v2/top-headlines?country=in&apiKey=9ea305f0f2be4cf086c49ca1622d29b3 ");
+        let json_data = await data.json();
+        console.log(json_data)
+        console.log(data);
+        this.setState({
+            articles: json_data.articles
+        })
+    }
     render() {
         return (
             <>
@@ -47,14 +47,10 @@ export default class News extends Component {
                             )
                         }
                     </div>
-                    <br />
-                    <br />
 
-                    <div className="container d-flex justify-content-between">
-                    <button type="button" className="btn btn-dark">&#8592; Prev</button>
-                    <button type="button" className="btn btn-dark">Next &#8594;</button>
-
-                        
+                    <div className="container d-flex justify-content-between my-3">
+                        <button type="button" className="btn btn-dark">&#8592; Prev</button>
+                        <button type="button" className="btn btn-dark">Next &#8594;</button>
                     </div>
                 </div>
             </>

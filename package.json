@@ -1,5 +1,6 @@
 {
   "name": "news-app",
+  "homepage": "https://ahuja-shivam.github.io/NewsArriva/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +21,6 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://ahuja-shivam.github.io/NewsArriva",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -b master -d build",
